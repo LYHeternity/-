@@ -1,0 +1,78 @@
+# 一站式创业者综合服务平台 - 主配置
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: entrepreneur-platform
+  # Redis 配置
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 3000
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/entrepreneur_platform?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 15333707586
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+# MyBatis Plus
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.entrepreneur.platform.entity
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      db-type: mysql
+      table-underline: true
+      capital-mode: false
+      auto-init-table: true
+    meta-object-handler:
+      field-strategy: ignored
+    schema-export:
+      enable: true
+      output-file: ./sql/schema.sql
+      delete-sql: true
+      sql-separator: ;
+    enable-sql-runner: true
+
+# 本地文件上传路径（可修改为绝对路径）
+file:
+  upload-dir: ${user.dir}/upload
+  access-prefix: /files
+
+# JWT
+jwt:
+  secret: entrepreneur-platform-jwt-secret-key-2025-change-in-production
+  expire-hours: 1
+
+# 跨域允许的前端地址（开发时用 * 或具体域名）
+cors:
+  allowed-origins: http://localhost:8081,http://127.0.0.1:8081,http://localhost:8082,http://127.0.0.1:8082
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: "*"
+  allow-credentials: true
+
+logging:
+  level:
+    root: INFO
+    com.entrepreneur: DEBUG
+  file:
+    name: logs/app.log

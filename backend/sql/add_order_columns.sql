@@ -1,0 +1,5 @@
+-- 添加订单表缺失的列
+ALTER TABLE `service_order`
+ADD COLUMN `title` VARCHAR(255) DEFAULT NULL COMMENT '订单标题',
+ADD COLUMN `quantity` INT DEFAULT 1 COMMENT '数量',
+ADD COLUMN `delivery_time` DATETIME DEFAULT NULL COMMENT '交付时间';
