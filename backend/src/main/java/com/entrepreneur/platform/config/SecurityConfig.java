@@ -55,17 +55,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/community/posts").permitAll()
                 .antMatchers(HttpMethod.GET, "/community/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/community/comments/**").permitAll()
-<<<<<<< HEAD
+
                 .antMatchers("/backup/**").permitAll()
                 .antMatchers("/ws/**", "/chat-ws/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/admin/stats/**").permitAll()
-=======
+
                 .antMatchers("/ws/**", "/chat-ws/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/admin/stats/**").permitAll()
                 .antMatchers("/admin/**").permitAll()
->>>>>>> 9b64148d98623b06683264281daf3bb34fea7cdd
+
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

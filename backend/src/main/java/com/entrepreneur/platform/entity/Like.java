@@ -9,11 +9,10 @@ import java.time.LocalDateTime;
  * 点赞表
  */
 @Data
-<<<<<<< HEAD
+
 @TableName("`like`")
-=======
-@TableName("like")
->>>>>>> 9b64148d98623b06683264281daf3bb34fea7cdd
+
+
 public class Like {
     @TableId(type = IdType.AUTO)
     private Long id;

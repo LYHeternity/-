@@ -96,6 +96,7 @@ export default {
     }
   },
   mounted() {
+    // 恢复验证码刷新
     this.refreshCaptcha()
     // 从localStorage加载记住的账号
     const savedAccount = localStorage.getItem('rememberedAccount')

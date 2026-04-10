@@ -77,11 +77,11 @@ public class FileController {
             // 生成访问URL
             String url;
             if (IMAGE_EXT.contains(ext.toLowerCase())) {
-<<<<<<< HEAD
+
                 url = "/api/static/images/" + name;
-=======
+
                 url = "/static/images/" + name;
->>>>>>> 9b64148d98623b06683264281daf3bb34fea7cdd
+
             } else {
                 url = "/api/files/" + name;
             }

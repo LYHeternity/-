@@ -52,30 +52,44 @@ public class AuthController {
     @PostMapping("/login")
     public Result<LoginResponse> login(@Validated @RequestBody LoginRequest request, HttpServletRequest req, HttpSession session) {
         try {
-            // 验证验证码
+            System.out.println("Login request received: account=" + request.getAccount() + ", password=" + request.getPassword());
+            
+            // 恢复验证码验证
             String sessionCaptcha = (String) session.getAttribute("captcha");
             if (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(request.getCaptcha())) {
+                System.out.println("验证码错误: sessionCaptcha=" + sessionCaptcha + ", requestCaptcha=" + request.getCaptcha());
                 return Result.fail(401, "验证码错误");
             }
             
             User user = userService.findUserByAccount(request.getAccount());
+            System.out.println("User found: " + (user != null ? user.getUsername() : "null"));
             if (user == null) {
+                System.out.println("User not found for account: " + request.getAccount());
                 return Result.fail(401, "账号或密码错误");
             }
             // 暂时禁用密码加密校验，直接验证密码是否匹配
+            System.out.println("User password: " + user.getPassword());
+            System.out.println("Request password: " + request.getPassword());
             if (!request.getPassword().equals(user.getPassword())) {
+                System.out.println("Password mismatch");
                 return Result.fail(401, "账号或密码错误");
             }
             // 更新最后登录时间
             user.setLastLoginAt(LocalDateTime.now());
             userService.updateById(user);
+            System.out.println("Last login time updated");
             logService.log("INFO", "auth", "登录成功", user.getUsername(), req);
             String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
+            System.out.println("Token generated: " + token);
             List<String> permissions = userService.getPermissionCodes(user.getId());
+            System.out.println("Permissions: " + permissions);
             LoginResponse resp = new LoginResponse(token, user.getId(), user.getUsername(), user.getRole(),
                     user.getAvatar(), user.getRealName(), permissions);
+            System.out.println("Login response created");
             return Result.ok(resp);
         } catch (Exception e) {
+            System.out.println("Login error: " + e.getMessage());
+            e.printStackTrace();
             logService.log("ERROR", "auth", "登录失败: " + e.getMessage(), request.getAccount(), req);
             return Result.fail(401, "账号或密码错误");
         }

@@ -21,7 +21,6 @@ public class User {
     private String role;
     private String avatar;
     private Integer status;
-    private String salt;
     private String industry;
     private String investmentAmount;
     private String companyName;
